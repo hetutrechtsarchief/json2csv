@@ -27,7 +27,7 @@ def getAllKeys(items):
 # main
 
 header = None
-output_filename = "result.csv"
+# output_filename = "result.csv"
 
 for filename in argv[1:]:
   with open(filename) as json_file:
@@ -41,7 +41,8 @@ for filename in argv[1:]:
 
     if not header:
         header = getAllKeys(items) # header is created based on just the first json file.
-        writer = csv.DictWriter(open(output_filename,"w", encoding="utf-8-sig"), fieldnames=header, delimiter=';', quoting=csv.QUOTE_ALL, dialect='excel')
+        writer = csv.DictWriter(sys.stdout, fieldnames=header, delimiter=';', quoting=csv.QUOTE_ALL, dialect='excel')
+        # open(output_filename,"w", encoding="utf-8")
         writer.writeheader()
     
     writer.writerows(items)
