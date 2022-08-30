@@ -26,13 +26,21 @@ def getAllKeys(items):
 ##########################################
 # main
 
+if len(argv)!=3:
+  print("Usage: json2csv {INPUT_JSON} {OUTPUT_CSV}")
+  sys.exit()
+
+input_filename = argv[1]
+output_filename = argv[2]
+
 header = None
 # output_filename = "result.csv"
 
-for filename in argv[1:]:
-  with open(filename) as json_file:
+
+# for filename in argv[1:]:
+with open(input_filename, encoding="utf-8") as json_file:
     data = json.load(json_file)
-    
+
     items = findList(data)
 
     if not type(items)==list:
@@ -41,10 +49,10 @@ for filename in argv[1:]:
 
     if not header:
         header = getAllKeys(items) # header is created based on just the first json file.
-        writer = csv.DictWriter(sys.stdout, fieldnames=header, delimiter=';', quoting=csv.QUOTE_ALL, dialect='excel')
+        writer = csv.DictWriter(open(output_filename,"w",encoding="utf-8"), fieldnames=header, delimiter=';', quoting=csv.QUOTE_ALL, dialect='excel')
         # open(output_filename,"w", encoding="utf-8")
         writer.writeheader()
-    
+
     writer.writerows(items)
 
 
